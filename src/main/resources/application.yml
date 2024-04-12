@@ -1,0 +1,53 @@
+logging:
+  level:
+    root: info
+    com.czetsuyatech: debug
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: commons-kafka-vertical-events-client
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      # Configures the Spring Kafka ErrorHandlingDeserializer that delegates to the 'real' deserializers
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.json.value.default.type: java.lang.String
+        spring.json.trusted.packages: com.czetsuyatech.vertical.events.messaging.messages
+        # Delegate deserializers
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+    listener:
+      ack-mode: RECORD
+      concurrency: 1
+      missing-topics-fatal: false
+    properties:
+      security:
+        protocol: PLAINTEXT
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+unified:
+  kafka:
+    vertical-events:
+      enabled: true
+      back-off-policy:
+        enabled: true
+        initial-interval: 30000
+        max-interval: 600000
+        multiplier: 1.5
+        max-retry: 5
+      topics:
+        iam-vertical: HmDataOps-Iam-vertical-events
+      consumers:
+        iam-group: hm-iam-events-group
