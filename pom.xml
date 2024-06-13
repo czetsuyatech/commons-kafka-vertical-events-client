@@ -9,7 +9,7 @@
     <version>3.2.4</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.czetsuyatech.events</groupId>
+  <groupId>com.czetsuyatech.commons</groupId>
   <artifactId>commons-kafka-vertical-events-client</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>commons-kafka-vertical-events-client</name>
@@ -19,7 +19,7 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>com.czetsuyatech.events</groupId>
+      <groupId>com.czetsuyatech.commons</groupId>
       <artifactId>commons-kafka-vertical-events</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
