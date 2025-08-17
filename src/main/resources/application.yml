@@ -46,7 +46,7 @@ unified:
         initial-interval: 30000
         max-interval: 600000
         multiplier: 1.5
-        max-retry: 5
+        max-retry: 3
       topics:
         iam-vertical: HmDataOps-Iam-vertical-events
       consumers:
