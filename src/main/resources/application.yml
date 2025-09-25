@@ -11,29 +11,33 @@ server:
 spring:
   application:
     name: commons-kafka-vertical-events-client
+    # Kafka Configuration
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: localhost:9092
     consumer:
-      auto-offset-reset: earliest
+      auto-offset-reset: latest
       enable-auto-commit: false
       # Configures the Spring Kafka ErrorHandlingDeserializer that delegates to the 'real' deserializers
       key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
         spring.json.value.default.type: java.lang.String
-        spring.json.trusted.packages: com.czetsuyatech.vertical.events.messaging.messages
         # Delegate deserializers
         spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
     listener:
       ack-mode: RECORD
       concurrency: 1
-      missing-topics-fatal: false
+      missing-topics-fatal: true
+    ssl:
+      trust-store-location: file:/app/certs/kafka.client.truststore.jks
     properties:
       security:
-        protocol: PLAINTEXT
+        protocol: SSL
+      spring.json.value.default.type: java.lang.String
+      spring.json.trusted.packages: com.czetsuyatech.vertical.events.messaging.messages,com.hivemaster
     producer:
-      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
