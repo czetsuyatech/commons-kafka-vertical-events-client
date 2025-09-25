@@ -6,14 +6,8 @@ import java.util.Locale;
 public enum EventType {
 
   NEW_USER,
-  NEW_LOGIN,
-  STATUS_CHANGE,
-  NAME_CHANGE,
-  PASSWORD_CHANGE,
-  EMAIL_CHANGE,
-  PHONE_CHANGE,
-  ROLE_CHANGE,
-  GROUP_CHANGE;
+  FAILED_EVENT,
+  RETRYABLE_EVENT;
 
   public static boolean isPresent(String value) {
     return Arrays.stream(EventType.values())

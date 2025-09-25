@@ -9,6 +9,7 @@ import com.czetsuyatech.vertical.events.messaging.messages.VerticalEventDTO.Even
 import com.czetsuyatech.vertical.events.messaging.producers.AbstractKafkaProducer;
 import java.time.OffsetDateTime;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +61,7 @@ public class IamEventProducer extends AbstractKafkaProducer<IamEvent, VerticalEv
 
     return VerticalEventDTO.builder()
         .event(Event.builder()
+            .eventId(UUID.randomUUID().toString())
             .timestamp(OffsetDateTime.now().toString())
             .service(event.getServiceName())
             .eventType(event.getEventType().name())

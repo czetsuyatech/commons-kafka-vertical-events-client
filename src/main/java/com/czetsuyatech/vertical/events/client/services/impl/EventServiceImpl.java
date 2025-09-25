@@ -22,14 +22,30 @@ public class EventServiceImpl implements EventService {
 
     log.debug("Generating vertical event");
 
-    iamEventProducer.publish(generateIamEvent());
+    iamEventProducer.publish(generateIamEvent(EventType.NEW_USER));
   }
 
-  private IamEvent generateIamEvent() {
+  @Override
+  public void generateFailedEvent() {
+
+    log.debug("Generating failed event");
+
+    iamEventProducer.publish(generateIamEvent(EventType.FAILED_EVENT));
+  }
+
+  @Override
+  public void generateRetryableEvent() {
+
+    log.debug("Generating retryable event");
+
+    iamEventProducer.publish(generateIamEvent(EventType.RETRYABLE_EVENT));
+  }
+
+  private IamEvent generateIamEvent(EventType eventType) {
 
     return IamEvent.builder()
         .eid(UUID.randomUUID().toString())
-        .eventType(EventType.NEW_USER)
+        .eventType(eventType)
         .serviceName(Constants.SERVICE)
         .entityType(Constants.ENTITY_TYPE)
         .build();
